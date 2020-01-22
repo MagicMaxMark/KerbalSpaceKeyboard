@@ -11,3 +11,12 @@ Arduino code for a Kerbal Space Program Controller
           
  Multiplexer |             | Arduino
 ```
+
+### Controls
+- **Right Joystick:** Steering
+- **Left Joystick:** RCS
+___
+- **Top Button of Center Buttons:** Toggle SAS
+- **Center Buttons:** SAS Mode
+___
+- **Numbered Buttons:** Custom Action Groups
