@@ -10,16 +10,9 @@
  *  stick |VCC ––––– 5v|
  *        |GND –––– GND|
  *  
- *  
  * 
  */
 #include "Keyboard.h"
-
-const byte ROWS = 1;
-const byte COLS = 10;
-
-bool oldstate4 = false;
-bool newstate4 = false;
 void setup() {
   // open the serial port:
   Serial.begin(9600);
@@ -28,19 +21,20 @@ void setup() {
 }
 
 void loop() {
-  if (analogRead(0) > 520) {
+  Serial.println(analogRead(0));
+  if (analogRead(0) > 521) {
     Keyboard.print("a");
-    delay(map(analogRead(0), 520, 1023, 200, 20));
-  } else if (analogRead(0) < 520) {
+    delay(map(analogRead(0), 521, 1023, 200, 20));
+  } else if (analogRead(0) < 519) {
     Keyboard.print("d");
-    delay(map(analogRead(0), 0, 520, 20, 200));
+    delay(map(analogRead(0), 0, 519, 20, 200));
   }
   
-  if (analogRead(1) > 502) {
+  if (analogRead(1) > 503) {
     Keyboard.print("s");
-    delay(map(analogRead(1), 502, 1023, 200, 20));
-  } else if (analogRead(1) < 502) {
+    delay(map(analogRead(1), 503, 1023, 200, 20));
+  } else if (analogRead(1) < 501) {
     Keyboard.print("w");
-    delay(map(analogRead(1), 0, 502, 20, 200));
+    delay(map(analogRead(1), 0, 501, 20, 200));
   }
 }
