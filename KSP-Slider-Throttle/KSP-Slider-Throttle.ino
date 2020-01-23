@@ -24,9 +24,9 @@ void loop() {
   }
 
   if (pos == 0){
-    Serial.println("z");
+    Keyboard.print("x");
   }
   if (pos == 10){
-    Serial.println("x");
+    Keyboard.print("z");
   }
 }
