@@ -2,6 +2,7 @@ int inputPinRead = 0;
 int lowsA0[] = {257,355,559,591,628,671,720,776,843,920};
 int highsA0[] = {277,375,579,611,648,691,740,796,863,940};
 char lettersA0[] = {'a','b','c','d','e','f','g','h','i','j'};
+bool triggrdA0[] = {false, false, false, false, false, false, false, false, false, false}
 
 void setup() {
   Serial.begin(9600);
@@ -14,7 +15,8 @@ void loop() {
   }
 
   else if(analogRead(A1) != LOW && analogRead(A1) != HIGH){
-    Serial.println("missing stop button");
+    Serial.print(A1);
+    Serial.println(" missing stop button");
   }
   
   else{
