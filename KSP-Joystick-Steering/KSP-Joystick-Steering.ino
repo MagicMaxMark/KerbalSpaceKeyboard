@@ -12,7 +12,9 @@
  *  
  * 
  */
+
 #include "Keyboard.h"
+
 void setup() {
   // open the serial port:
   Serial.begin(9600);
@@ -23,10 +25,10 @@ void setup() {
 void loop() {
   Serial.println(analogRead(0));
   if (analogRead(0) > 521) {
-    Keyboard.print("a");
+    Keyboard.print("d");
     delay(map(analogRead(0), 521, 1023, 200, 20));
   } else if (analogRead(0) < 519) {
-    Keyboard.print("d");
+    Keyboard.print("a");
     delay(map(analogRead(0), 0, 519, 20, 200));
   }
   
