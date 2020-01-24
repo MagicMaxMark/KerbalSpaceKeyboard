@@ -8,6 +8,10 @@ Arduino code for a Kerbal Space Program Controller
  Joystick    |Bt  ––––-  NC| Arduino
              |VCC ––––-  5v|
              |GND ––––- GND|
+             
+             |VCC –––––  5v|
+ Slider      |GND ––––– GND| Arduino
+             |Sig –––––  A2|
           
  Multiplexer |             | Arduino
 ```
@@ -20,6 +24,8 @@ ___
 - **Center Buttons:** SAS Mode
 ___
 - **Numbered Buttons:** Custom Action Groups
+___
+- **Slider:** Throttle
 
 ### Layout
 http://ksp-controller-layout.alextheperson.repl.co/
