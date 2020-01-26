@@ -18,7 +18,7 @@ Arduino code for a Kerbal Space Program Controller
 
 ### Controls
 - **Right Joystick:** Steering
-- **Left Joystick:** RCS
+- **Left Joystick:** When RCS is on, this joystick controls RCS, when RCS is off this joystick is for looking around
 ___
 - **Top Button of Center Buttons:** Toggle SAS
 - **Center Buttons:** SAS Mode
