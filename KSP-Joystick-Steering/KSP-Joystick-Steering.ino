@@ -3,7 +3,7 @@
  *  
  *  PIN-OUT
  *  –––––––––––––––––––-––––
- *  ddddd
+ *  
  *        |Y ––––––– A0|
  *  joy   |X ––––––– A1|
  *        |Bt –––––– NC| arduino
@@ -23,20 +23,27 @@ void setup() {
 }
 
 void loop() {
-  Serial.println(analogRead(0));
-  if (analogRead(0) > 521) {
-    Keyboard.print("d");
-    delay(map(analogRead(0), 521, 1023, 200, 20));
-  } else if (analogRead(0) < 519) {
+  if (analogRead(0) > 621) {
     Keyboard.print("a");
-    delay(map(analogRead(0), 0, 519, 20, 200));
+    delay(map(analogRead(0), 621, 1023, 200, 60));
+  } else if (analogRead(0) < 419) {
+    Keyboard.print("d");
+    delay(map(analogRead(0), 0, 419, 60, 200));
   }
   
-  if (analogRead(1) > 503) {
+  if (analogRead(1) > 603) {
     Keyboard.print("s");
-    delay(map(analogRead(1), 503, 1023, 200, 20));
-  } else if (analogRead(1) < 501) {
+    delay(map(analogRead(1), 603, 1023, 200, 60));
+  } else if (analogRead(1) < 401) {
     Keyboard.print("w");
-    delay(map(analogRead(1), 0, 501, 20, 200));
+    delay(map(analogRead(1), 0, 401, 60, 200));
+  }
+
+  if (analogRead(2) > 603) {
+    Keyboard.print("e");
+    delay(map(analogRead(2), 603, 1023, 200, 60));
+  } else if (analogRead(2) < 401) {
+    Keyboard.print("q");
+    delay(map(analogRead(2), 0, 401, 60, 200));
   }
 }
