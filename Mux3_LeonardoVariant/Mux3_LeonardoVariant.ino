@@ -21,6 +21,7 @@
 #define muxThreeOutputTwo 16
 
 int bits[] = {0,0,0};
+char mux1Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 char keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
@@ -60,6 +61,12 @@ void checkButton(int button){
 
   else if(buttonsPressed[button] && !digitalRead(A0)){
     buttonsPressed[button] = false;
+  }
+}
+
+void setMuxKeys(int muxNum){
+  for(int i = 0; i < 8; i++){
+    keys[i] = mux1Keys[i];
   }
 }
 
