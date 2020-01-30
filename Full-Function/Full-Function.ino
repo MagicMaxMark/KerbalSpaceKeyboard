@@ -92,9 +92,9 @@ void loop() {
     if (digitalRead(i) == LOW){
       char letter;
       if(i == 5){
-        letter = 'c';
-      } else if(i == 6){
         letter = 'm';
+      } else if(i == 6){
+        letter = 'c';
       } else if(i == 7){
         letter = 'g';
       } else if(i == 8){
