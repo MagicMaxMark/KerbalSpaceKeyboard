@@ -21,8 +21,11 @@
 #define muxThreeOutputTwo 16
 
 int bits[] = {0,0,0};
+char mux0Keys[] = {'1', '2', '3', '4', '5', '6', '7', '8'};
 char mux1Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
-char keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+
+char keys[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //this will change depending on the activated mux
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
 void setup(){
@@ -30,6 +33,25 @@ void setup(){
   Serial.begin(9600);
   Serial.println("Hello World");
 
+  //Mux0 Digital button
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(A0, INPUT);
+
+  //Mux1 Digital button
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(A0, INPUT);
+
+  //Mux2 Digital button
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(A0, INPUT);
+
+  //Mux3 Analog Joystick, Throttle
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(4, OUTPUT);
@@ -38,11 +60,14 @@ void setup(){
 
 void loop(){
   if(digitalRead(6) != 0){
-    muxOneLoop();
+    muxLoop(0);
   }
 }
 
-void muxOneLoop(){
+void muxLoop(int muxNum){
+  
+  setMuxKeys(muxNum);
+  
   for(int i = 0; i < 8; i ++){
     checkButton(i);
   }
@@ -65,8 +90,22 @@ void checkButton(int button){
 }
 
 void setMuxKeys(int muxNum){
-  for(int i = 0; i < 8; i++){
-    keys[i] = mux1Keys[i];
+  if(muxNum == 0){
+    for(int i = 0; i < 8; i++){
+      keys[i] = mux0Keys[i];
+    }
+  }
+  
+  if(muxNum == 1){
+    for(int i = 0; i < 8; i++){
+      keys[i] = mux1Keys[i];
+    }
+  }
+  
+  if(muxNum == 2){
+    for(int i = 0; i < 8; i++){
+      keys[i] = mux2Keys[i];
+    }
   }
 }
 
