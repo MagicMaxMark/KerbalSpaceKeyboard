@@ -56,6 +56,7 @@ void loop() {
       }
       Keyboard.print(letter);
     }
+    Serial.println(digitalRead(i));
   }
   if (RCS == true){
     digitalWrite(3, HIGH);
