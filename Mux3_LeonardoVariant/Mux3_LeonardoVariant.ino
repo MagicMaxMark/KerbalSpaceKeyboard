@@ -1,6 +1,7 @@
 int bits[] = {0,0,0};
 
 void setup(){
+  //Keyboard.begin
   Serial.begin(9600);
   Serial.println("Hello World");
 
@@ -11,7 +12,14 @@ void setup(){
 }
 
 void loop(){
-  muxOneLoop();
+  if(digitalRead(6) != 0){
+    muxOneLoop();
+  }
+
+  else{
+    Serial.print("Broken :( ");
+    Serial.println(digitalRead(6));
+  }
 }
 
 void muxOneLoop(){
@@ -25,8 +33,6 @@ void checkButton(int button){
   digitalWrite(2, bits[0]);
   digitalWrite(3, bits[1]);
   digitalWrite(4, bits[2]);
-//  Serial.print("pin 5 ");
-//  Serial.println(digitalRead(5));
 
   if(digitalRead(5)){
     Serial.print(button);
@@ -42,7 +48,7 @@ void DecimalToBinary(int n) {
       n = n / 2;
       i++;
    }
-
+   
    bits[0] = binaryNumber[0];
    bits[1] = binaryNumber[1];
    bits[2] = binaryNumber[2];
