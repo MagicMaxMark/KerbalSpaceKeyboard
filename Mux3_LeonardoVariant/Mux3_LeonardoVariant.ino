@@ -28,6 +28,11 @@ char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 char keys[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //this will change depending on the activated mux
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
+static const uint8_t readPins[] = {A0,A1,A2,A3,A4};
+int writePins0[] = {2, 5, 8, 14};
+int writePins1[] = {3, 6, 9, 15};
+int writePins2[] = {4, 7, 10, 16};
+
 void setup(){
   Keyboard.begin();
   Serial.begin(9600);
@@ -46,10 +51,10 @@ void setup(){
   pinMode(A0, INPUT);
 
   //Mux2 Digital button
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(A0, INPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(A2, INPUT);
 
   //Mux3 Analog Joystick, Throttle
   pinMode(2, OUTPUT);
@@ -60,26 +65,26 @@ void setup(){
 
 void loop(){
   if(digitalRead(6) != 0){
-    muxLoop(0);
+    muxLoop(2);//
+    muxLoop(2);
   }
 }
 
 void muxLoop(int muxNum){
-  
   setMuxKeys(muxNum);
   
   for(int i = 0; i < 8; i ++){
-    checkButton(i);
+    checkButton(i, muxNum);
   }
 }
 
-void checkButton(int button){
+void checkButton(int button, int muxNum){
   DecimalToBinary(button);
-  digitalWrite(2, bits[0]);
-  digitalWrite(3, bits[1]);
-  digitalWrite(4, bits[2]);
+  digitalWrite(writePins0[muxNum], bits[0]);
+  digitalWrite(writePins1[muxNum], bits[1]);
+  digitalWrite(writePins2[muxNum], bits[2]);
 
-  if(digitalRead(A0) && !buttonsPressed[button]){
+  if(digitalRead(readPins[muxNum]) && !buttonsPressed[button]){
     Keyboard.print(keys[button]);
     buttonsPressed[button] = true;
   }
