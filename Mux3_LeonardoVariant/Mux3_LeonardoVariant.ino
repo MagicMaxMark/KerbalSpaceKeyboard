@@ -26,6 +26,11 @@ char mux1Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 
 char keys[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //this will change depending on the activated mux
+
+bool buttonsPressed0[] = {false, false, false, false, false, false, false, false};
+bool buttonsPressed1[] = {false, false, false, false, false, false, false, false};
+bool buttonsPressed2[] = {false, false, false, false, false, false, false, false};
+
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
 static const uint8_t readPins[] = {A0,A1,A2,A3,A4};
@@ -65,16 +70,57 @@ void setup(){
 
 void loop(){
   if(digitalRead(6) != 0){
-    muxLoop(2);//
     muxLoop(2);
+    muxLoop(0);
   }
 }
 
 void muxLoop(int muxNum){
   setMuxKeys(muxNum);
+  setButtonsPressed(muxNum, false);
   
   for(int i = 0; i < 8; i ++){
     checkButton(i, muxNum);
+  }
+
+  setButtonsPressed(muxNum, true);
+}
+
+void setButtonsPressed(int muxNum, bool setSavedButtons){
+  if(setSavedButtons){
+    if(muxNum == 0){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed0[i] = buttonsPressed[i];
+      }
+    }
+    else if(muxNum == 1){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed1[i] = buttonsPressed[i];
+      }
+    }
+    else if(muxNum == 2){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed2[i] = buttonsPressed[i];
+      }
+    }
+  }
+  
+  else{
+    if(muxNum == 0){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed[i] = buttonsPressed0[i];
+      }
+    }
+    else if(muxNum == 1){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed[i] = buttonsPressed1[i];
+      }
+    }
+    else if(muxNum == 2){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed[i] = buttonsPressed2[i];
+      }
+    }
   }
 }
 
@@ -89,7 +135,7 @@ void checkButton(int button, int muxNum){
     buttonsPressed[button] = true;
   }
 
-  else if(buttonsPressed[button] && !digitalRead(A0)){
+  else if(!digitalRead(readPins[muxNum]) && buttonsPressed[button]){
     buttonsPressed[button] = false;
   }
 }
