@@ -26,7 +26,17 @@ char mux1Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 
 char keys[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //this will change depending on the activated mux
+
+bool buttonsPressed0[] = {false, false, false, false, false, false, false, false};
+bool buttonsPressed1[] = {false, false, false, false, false, false, false, false};
+bool buttonsPressed2[] = {false, false, false, false, false, false, false, false};
+
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
+
+static const uint8_t readPins[] = {A0,A1,A2,A3,A4};
+int writePins0[] = {2, 5, 8, 14};
+int writePins1[] = {3, 6, 9, 15};
+int writePins2[] = {4, 7, 10, 16};
 
 void setup(){
   Keyboard.begin();
@@ -46,10 +56,10 @@ void setup(){
   pinMode(A0, INPUT);
 
   //Mux2 Digital button
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(A0, INPUT);
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(A2, INPUT);
 
   //Mux3 Analog Joystick, Throttle
   pinMode(2, OUTPUT);
@@ -60,31 +70,72 @@ void setup(){
 
 void loop(){
   if(digitalRead(6) != 0){
+    muxLoop(2);
     muxLoop(0);
   }
 }
 
 void muxLoop(int muxNum){
-  
   setMuxKeys(muxNum);
+  setButtonsPressed(muxNum, false);
   
   for(int i = 0; i < 8; i ++){
-    checkButton(i);
+    checkButton(i, muxNum);
+  }
+
+  setButtonsPressed(muxNum, true);
+}
+
+void setButtonsPressed(int muxNum, bool setSavedButtons){
+  if(setSavedButtons){
+    if(muxNum == 0){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed0[i] = buttonsPressed[i];
+      }
+    }
+    else if(muxNum == 1){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed1[i] = buttonsPressed[i];
+      }
+    }
+    else if(muxNum == 2){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed2[i] = buttonsPressed[i];
+      }
+    }
+  }
+  
+  else{
+    if(muxNum == 0){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed[i] = buttonsPressed0[i];
+      }
+    }
+    else if(muxNum == 1){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed[i] = buttonsPressed1[i];
+      }
+    }
+    else if(muxNum == 2){
+      for(int i = 0; i < 8; i ++){
+        buttonsPressed[i] = buttonsPressed2[i];
+      }
+    }
   }
 }
 
-void checkButton(int button){
+void checkButton(int button, int muxNum){
   DecimalToBinary(button);
-  digitalWrite(2, bits[0]);
-  digitalWrite(3, bits[1]);
-  digitalWrite(4, bits[2]);
+  digitalWrite(writePins0[muxNum], bits[0]);
+  digitalWrite(writePins1[muxNum], bits[1]);
+  digitalWrite(writePins2[muxNum], bits[2]);
 
-  if(digitalRead(A0) && !buttonsPressed[button]){
+  if(digitalRead(readPins[muxNum]) && !buttonsPressed[button]){
     Keyboard.print(keys[button]);
     buttonsPressed[button] = true;
   }
 
-  else if(buttonsPressed[button] && !digitalRead(A0)){
+  else if(!digitalRead(readPins[muxNum]) && buttonsPressed[button]){
     buttonsPressed[button] = false;
   }
 }
