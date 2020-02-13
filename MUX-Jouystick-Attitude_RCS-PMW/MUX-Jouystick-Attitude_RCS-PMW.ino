@@ -59,7 +59,8 @@ void checkJoystick(int axis){
   }
 
   if (axis == 3 && analogRead(A0) > 721){
-    Keyboard.press('s');
+    //Keyboard.press('s');
+    PMW(analogRead(A0), 's', 721, 1010);
   } else if (axis == 3 && analogRead(A0) < 319){
     Keyboard.press('w');
   } else if (axis == 3 && 319 < analogRead(A0) && analogRead(A0) < 721){
@@ -69,7 +70,7 @@ void checkJoystick(int axis){
 
   if (axis == 4 && analogRead(A0) > 721){
     Keyboard.press('a');
-    PMW(analogRead(A0), 'a');
+    PMW(analogRead(A0), 'a', 721, 1000);
   } else if (axis == 4 && analogRead(A0) < 319){
     Keyboard.press('d');
   } else if (axis == 4 && 319 < analogRead(A0) && analogRead(A0) < 721){
@@ -121,7 +122,11 @@ void DecimalToBinary(int n) {
    bits[2] = binaryNumber[2];
 }
 
-void PMW(int pushedness, char letter){
+void PMW(int pushedness, char letter, int minimum, int maximum){
+  pushedness = map(pushedness, minimum, maximum, 100, 0);
   Serial.println(pushedness);
-  pushedness = map(pushedness, 0, 1023, 0, 100);
+  if (millis() % pushedness*10 == 0){
+    Keyboard.print(letter);
+    Serial.println(letter);
+  }
 }
