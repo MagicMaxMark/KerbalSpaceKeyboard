@@ -6,7 +6,7 @@ bool caps_lock_left  = false;
 
 void setup(){
   Serial.begin(9600);
-  Serial.print("Hello World");
+  //Serial.print("Hello World");
 
   pinMode(2, OUTPUT);
   pinMode(3, OUTPUT);
@@ -60,7 +60,7 @@ void checkJoystick(int axis){
 
   if (axis == 3 && analogRead(A0) > 721){
     //Keyboard.press('s');
-    PMW(analogRead(A0), 's', 721, 1010);
+    PWM(analogRead(A0), 's', 721, 1010);
   } else if (axis == 3 && analogRead(A0) < 319){
     Keyboard.press('w');
   } else if (axis == 3 && 319 < analogRead(A0) && analogRead(A0) < 721){
@@ -70,7 +70,7 @@ void checkJoystick(int axis){
 
   if (axis == 4 && analogRead(A0) > 721){
     Keyboard.press('a');
-    PMW(analogRead(A0), 'a', 721, 1000);
+    PWM(analogRead(A0), 'a', 721, 1000);
   } else if (axis == 4 && analogRead(A0) < 319){
     Keyboard.press('d');
   } else if (axis == 4 && 319 < analogRead(A0) && analogRead(A0) < 721){
@@ -79,7 +79,8 @@ void checkJoystick(int axis){
   }
 
   if (axis == 5 && analogRead(A0) > 721){
-    Keyboard.press('q');
+    //Keyboard.press('q');
+    PWM(analogRead(A0), 'q', 721, 1010);
   } else if (axis == 5 && analogRead(A0) < 319){
     Keyboard.press('e');
   } else if (axis == 5 && 319 < analogRead(A0) && analogRead(A0) < 721){
@@ -122,11 +123,19 @@ void DecimalToBinary(int n) {
    bits[2] = binaryNumber[2];
 }
 
-void PMW(int pushedness, char letter, int minimum, int maximum){
+void PWM(int pushedness, char letter, int minimum, int maximum){
   pushedness = map(pushedness, minimum, maximum, 100, 0);
-  Serial.println(pushedness);
-  if (millis() % pushedness*10 == 0){
-    Keyboard.print(letter);
-    Serial.println(letter);
+  int antiPushedness = 100-pushedness;
+  unsigned long milliseconds = millis();
+  while (true){
+    milliseconds = milliseconds/10;
+    if (milliseconds < 100){
+      break;
+    }
+  }
+  if (milliseconds > antiPushedness){
+    Keyboard.release(letter);
+  } else {
+    Keyboard.press(letter);
   }
 }
