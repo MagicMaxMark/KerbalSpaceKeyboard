@@ -1,5 +1,4 @@
 #include <Keyboard.h>
-
 //used by all Muxen
 int bits[] = {0,0,0};
 
@@ -21,7 +20,7 @@ bool buttonsPressed2[] = {false, false, false, false, false, false, false, false
 //because I couldn't figure out arrays
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
-//all pins used in arrays
+//all pins used, in arrays
 static const uint8_t readPins[] = {A0, A1, A2, A3, A4};
 int writePins0[] = {2, 5, 8, 14};
 int writePins1[] = {3, 6, 9, 15};
