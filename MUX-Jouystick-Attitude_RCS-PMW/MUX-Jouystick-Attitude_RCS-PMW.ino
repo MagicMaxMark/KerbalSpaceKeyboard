@@ -1,11 +1,12 @@
-#include "Keyboard.h"
+#include <Keyboard.h>
+
 //used by all Muxen
 int bits[] = {0,0,0};
 
 //Saved for button Muxen
-char mux0Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux0Keys[] = {'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'};
 char mux1Keys[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
-char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux2Keys[] = {'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'};
 
 //Used by button Muxen, Saves get copied here later in the code 
 //because I couldn't figure out arrays
@@ -71,9 +72,9 @@ void muxOneLoop(){
 
 void checkJoystick(int axis){
   DecimalToBinary(axis);
-  digitalWrite(4, bits[0]); //4ths place
-  digitalWrite(3, bits[1]); //2nds place
-  digitalWrite(2, bits[2]); //1sts place
+  digitalWrite(writePins0[3], bits[0]); //4ths place
+  digitalWrite(writePins1[3], bits[1]); //2nds place
+  digitalWrite(writePins2[3], bits[2]); //1sts place
 
   if (axis == 0 && analogRead(A0) > 721){
     Keyboard.press('j');
