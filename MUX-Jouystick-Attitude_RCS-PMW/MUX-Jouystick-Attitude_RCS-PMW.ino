@@ -1,11 +1,11 @@
-#include "Keyboard.h"
+#include <Keyboard.h>
 //used by all Muxen
 int bits[] = {0,0,0};
 
 //Saved for button Muxen
-char mux0Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux0Keys[] = {'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'};
 char mux1Keys[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
-char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux2Keys[] = {'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'};
 
 //Used by button Muxen, Saves get copied here later in the code 
 //because I couldn't figure out arrays
@@ -20,7 +20,7 @@ bool buttonsPressed2[] = {false, false, false, false, false, false, false, false
 //because I couldn't figure out arrays
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
-//all pins used in arrays
+//all pins used, in arrays
 static const uint8_t readPins[] = {A0, A1, A2, A3, A4};
 int writePins0[] = {2, 5, 8, 14};
 int writePins1[] = {3, 6, 9, 15};
