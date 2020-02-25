@@ -1,28 +1,8 @@
 #include <Keyboard.h>
 
-#define muxZeroInput A0
-#define muxZeroOutputZero 2
-#define muxZeroOutputOne 3
-#define muxZeroOutputTwo 4
-
-#define muxOneInput A1
-#define muxOneOutputZero 5
-#define muxOneOutputOne 6
-#define muxOneOutputTwo 7
-
-#define muxTwoInput A2
-#define muxTwoOutputZero 8
-#define muxTwoOutputOne 9
-#define muxTwoOutputTwo 10
-
-#define muxThreeInput A3
-#define muxThreeOutputZero 14
-#define muxThreeOutputOne 15
-#define muxThreeOutputTwo 16
-
 int bits[] = {0,0,0};
-char mux0Keys[] = {'1', '2', '3', '4', '5', '6', '7', '8'};
-char mux1Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux0Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
+char mux1Keys[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
 char mux2Keys[] = {'c', 'm', 'g', 'u', KEY_BACKSPACE, ' ', 't', 'r'};
 
 char keys[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //this will change depending on the activated mux
@@ -33,7 +13,7 @@ bool buttonsPressed2[] = {false, false, false, false, false, false, false, false
 
 bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
 
-static const uint8_t readPins[] = {A0,A1,A2,A3,A4};
+static const uint8_t readPins[] = {A0, A1, A2, A3, A4};
 int writePins0[] = {2, 5, 8, 14};
 int writePins1[] = {3, 6, 9, 15};
 int writePins2[] = {4, 7, 10, 16};
@@ -50,10 +30,10 @@ void setup(){
   pinMode(A0, INPUT);
 
   //Mux1 Digital button
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(A0, INPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(A1, INPUT);
 
   //Mux2 Digital button
   pinMode(8, OUTPUT);
@@ -62,17 +42,16 @@ void setup(){
   pinMode(A2, INPUT);
 
   //Mux3 Analog Joystick, Throttle
-  pinMode(2, OUTPUT);
-  pinMode(3, OUTPUT);
-  pinMode(4, OUTPUT);
-  pinMode(A0, INPUT);
+  pinMode(14, OUTPUT);
+  pinMode(15, OUTPUT);
+  pinMode(16, OUTPUT);
+  pinMode(A3, INPUT);
 }
 
 void loop(){
-  if(digitalRead(6) != 0){
-    muxLoop(2);
-    muxLoop(0);
-  }
+  muxLoop(1);
+  //muxLoop(2);
+  //muxLoop(3);
 }
 
 void muxLoop(int muxNum){
