@@ -3,23 +3,12 @@
 //used by all Muxen
 int bits[] = {0,0,0};
 
-//Saved for button Muxen
-char mux0Keys[] = {'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'};
-char mux1Keys[] = {'0', '1', '2', '3', '4', '5', '6', '7'};
-char mux2Keys[] = {'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'};
+//both buttons and keys are in 2d arrays
+//All Keys
+char muxKeys[3][8] = {{'c', 'm', 'g', 'u', '\b', ' ', 't', 'r'},{'0', '1', '2', '3', '4', '5', '6', '7'},{'h', 'e', 'l', 'o', 'w', 'r', 'l', 'd'}};
 
-//Used by button Muxen, Saves get copied here later in the code 
-//because I couldn't figure out arrays
-char keys[] = {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '}; //this will change depending on the activated mux
-
-//Saved for button Muxen
-bool buttonsPressed0[] = {false, false, false, false, false, false, false, false};
-bool buttonsPressed1[] = {false, false, false, false, false, false, false, false};
-bool buttonsPressed2[] = {false, false, false, false, false, false, false, false};
-
-//Used by button Muxen, Saves get copied here later in the code 
-//because I couldn't figure out arrays
-bool buttonsPressed[] = {false, false, false, false, false, false, false, false};
+//all buttons
+bool buttonsPressed[3][8] = {{false, false, false, false, false, false, false, false},{false, false, false, false, false, false, false, false},{false, false, false, false, false, false, false, false}};
 
 //all pins used, in arrays
 static const uint8_t readPins[] = {A0, A1, A2, A3, A4};
@@ -61,10 +50,11 @@ void setup(){
 }
 
 void loop(){
-  muxOneLoop();
+  muxLoop(0);
+  //muxAnalogLoop();
 }
 
-void muxOneLoop(){
+void muxAnalogLoop(){
   for(int i = 0; i < 8; i ++){
     checkJoystick(i);
   }
@@ -186,51 +176,8 @@ void PWM(int pushedness, char letter, int minimum, int maximum){
 }
 
 void muxLoop(int muxNum){
-  setMuxKeys(muxNum);
-  setButtonsPressed(muxNum, false);
-  
   for(int i = 0; i < 8; i ++){
     checkButton(i, muxNum);
-  }
-
-  setButtonsPressed(muxNum, true);
-}
-
-void setButtonsPressed(int muxNum, bool setSavedButtons){
-  if(setSavedButtons){
-    if(muxNum == 0){
-      for(int i = 0; i < 8; i ++){
-        buttonsPressed0[i] = buttonsPressed[i];
-      }
-    }
-    else if(muxNum == 1){
-      for(int i = 0; i < 8; i ++){
-        buttonsPressed1[i] = buttonsPressed[i];
-      }
-    }
-    else if(muxNum == 2){
-      for(int i = 0; i < 8; i ++){
-        buttonsPressed2[i] = buttonsPressed[i];
-      }
-    }
-  }
-  
-  else{
-    if(muxNum == 0){
-      for(int i = 0; i < 8; i ++){
-        buttonsPressed[i] = buttonsPressed0[i];
-      }
-    }
-    else if(muxNum == 1){
-      for(int i = 0; i < 8; i ++){
-        buttonsPressed[i] = buttonsPressed1[i];
-      }
-    }
-    else if(muxNum == 2){
-      for(int i = 0; i < 8; i ++){
-        buttonsPressed[i] = buttonsPressed2[i];
-      }
-    }
   }
 }
 
@@ -241,31 +188,11 @@ void checkButton(int button, int muxNum){
   digitalWrite(writePins2[muxNum], bits[2]);
 
   if(digitalRead(readPins[muxNum]) && !buttonsPressed[button]){
-    Keyboard.print(keys[button]);
-    buttonsPressed[button] = true;
+    Keyboard.print(muxKeys[muxNum][button]);
+    buttonsPressed[muxNum][button] = true;
   }
 
   else if(!digitalRead(readPins[muxNum]) && buttonsPressed[button]){
-    buttonsPressed[button] = false;
-  }
-}
-
-void setMuxKeys(int muxNum){
-  if(muxNum == 0){
-    for(int i = 0; i < 8; i++){
-      keys[i] = mux0Keys[i];
-    }
-  }
-  
-  if(muxNum == 1){
-    for(int i = 0; i < 8; i++){
-      keys[i] = mux1Keys[i];
-    }
-  }
-  
-  if(muxNum == 2){
-    for(int i = 0; i < 8; i++){
-      keys[i] = mux2Keys[i];
-    }
+    buttonsPressed[muxNum][button] = false;
   }
 }
