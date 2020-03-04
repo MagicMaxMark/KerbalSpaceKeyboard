@@ -187,12 +187,12 @@ void checkButton(int button, int muxNum){
   digitalWrite(writePins1[muxNum], bits[1]);
   digitalWrite(writePins2[muxNum], bits[2]);
 
-  if(digitalRead(readPins[muxNum]) && !buttonsPressed[button]){
+  if(digitalRead(readPins[muxNum]) && !buttonsPressed[muxNum][button]){
     Keyboard.print(muxKeys[muxNum][button]);
     buttonsPressed[muxNum][button] = true;
   }
 
-  else if(!digitalRead(readPins[muxNum]) && buttonsPressed[button]){
+  else if(!digitalRead(readPins[muxNum]) && buttonsPressed[muxNum][button]){
     buttonsPressed[muxNum][button] = false;
   }
 }
